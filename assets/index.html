@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital White Board</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/sidebar.css">
+  <link rel="stylesheet" href="./css/page.css">
+  <link rel="stylesheet" href="./css/shape.css">
+  <link rel="stylesheet" href="./css/media.css">
+  
+</head>
+<body>
+    <div class="container">
+        <div class="tools-bar">
+            <button class="open-tools" title="Tools">
+                <img src="./images/menu.png" class="open">
+                <img src="./images/exit.png" class="close">
+            </button>
+
+            <div class="tools">
+                <button class="tool-btn pen" title="pen">
+                    <span class="selected-tool-icon"><i class="fa-solid fa-pen"></i></span>
+                    <i class="fa fa-angle-up"></i>
+                </button>
+
+
+                 <div id="pen-dropdown" class="dropdown">
+                    <div class="dropdown-item">
+                        <span>Thickness</span>
+                        <input type="range" id="pen-width" min="1" max="100" value="3" step="1">
+                        <span id="pen-width-value">3</span>
+                    </div>
+
+                    <div class="dropdown-items">
+                        <button class="color-swatch selected-color" style="background: #ff0000;" data-color="#ff0000"></button>
+                        <button class="color-swatch selected-color" style="background: #00ff00;" data-color="#00ff00"></button>
+                        <button class="color-swatch selected-color" style="background: #0000ff;" data-color="#0000ff"></button>
+                        <button class="color-swatch selected-color" style="background: #000000;" data-color="#000000"></button>
+                        <button class="color-swatch selected-color" style="background: #f896f8ff;" data-color="#f896f8ff"></button>
+                        <button class="color-swatch selected-color" style="background: #fff000;" data-color="#fff000"></button>
+                        <button class="color-swatch selected-color" style="background: #00ffff;" data-color="#00ffff"></button>
+                        <button class="color-swatch selected-color" style="background: #ff4582;" data-color="#ff4582"></button>
+                    </div>
+
+                        <div class="dropdown-items-btn">
+                            <button class="other-tools" id="Pen"><i class="fa-solid fa-pen"></i>Pen</button>
+                            <button class="other-tools" id="Pointer"><i class="fa-solid fa-arrow-pointer"></i>Pointer</button>
+                            <button class="other-tools" id="Highlighter"><i class="fa-solid fa-highlighter"></i>Highlighter</button>
+                            <button class="other-tools" id="Eraser"><i class="fa-solid fa-eraser"></i>Eraser</button>
+                            <button class="other-tools" id="EraseAll"><i class="fa-solid fa-trash"></i>Erase All</button>
+                        </div>
+                 </div>
+
+
+                 <button class="tool-btn shape" title="Shapes">
+                <span class="selected-shape-icon"><i class="fa-solid fa-shapes"></i></span>
+                <i class="fa fa-angle-up"></i>
+                </button>
+
+<!-- === SHAPE DROPDOWN === -->
+<div id="shape-dropdown" class="dropdown shape-dropdown">
+  <div class="dropdown-items-btn">
+  <button class="shape-option" data-shape="rectangle"><i class="fa-regular fa-square"></i> Rectangle</button>
+  <button class="shape-option" data-shape="circle"><i class="fa-regular fa-circle"></i> Circle</button>
+  <button class="shape-option" data-shape="triangle"><i class="fa-solid fa-play fa-rotate-270"></i> Triangle</button>
+  <button class="shape-option" data-shape="diamond"><i class="fa-regular fa-gem"></i> Diamond</button>
+  <button class="shape-option" data-shape="line"><i class="fa-solid fa-circle-xmark"></i> none</button>
+</div>
+
+  <div class="fill-color">
+    <label>
+      <input type="checkbox" id="fill-shape"> Fill Shape
+    </label>
+  </div>
+</div>
+
+                 
+
+                 <button class="tool-btn screen-share" id="screen-share" title="Screen Share">
+                    <span><img src="./images/screen share.png" ></span>
+                </button>
+
+                 <button class="tool-btn live-chat" id="live-chat" title="live-chat">
+                    <span><img src="./images/messages.png" ></span>
+                </button>
+
+                 <button class="tool-btn undo" id="undo" title="Undo">
+                    <span><img src="./images/undo.png" ></span>
+                </button>
+
+                <button class="tool-btn redo" id="redo" title="Redo">
+                    <span><img src="./images/redo.png"></span>
+                </button>
+
+                <button class="tool-btn" id="photo" title="Upload Image">
+                    <img src="./images/pic.png" />
+                </button>
+                <input type="file" id="photo-upload" accept="image/*" style="display: none;" />
+
+
+                <button class="dual-tool-btn" id="camera-toggle" title="camera">
+                    <img src="./images/camera.png" class="camera-on"  title="Camera On">
+                    <img src="./images/camera-off.png" class="camera-off" title="Camera Off">
+                </button>
+
+                <button class="dual-tool-btn" id="mic-toggle" onclick="startmic()" title="mic">
+                    <img src="./images/mute.png" class="mic-on" title="Mute">
+                    <img src="./images/unmute.png" class="mic-off" title="Unmute">
+                </button>
+
+                <button class="dual-tool-btn" id="screen-toggle" >
+                    <img src="./images/fullscreen.png" class="screen-max" title="full screen">
+                    <img src="./images/shortscreen.png" class="screen-min" title="minimize screen">
+                </button>
+
+                 <button class="tool-btn settings" id="settings" title="Settings">
+                    <span><img src="./images/settings.png"></span>
+                </button>
+            </div>  
+        </div>
+
+                <div class="main-area">
+                    <div class="content-section" id="content-area">
+                         <div id="whiteboard-wrapper" style="overflow: auto; width: 100%; height: 100%;">
+                        <canvas id="whiteboard"></canvas>
+                     </div>
+                </div>
+            
+            <div class="chat-section">
+                <div class="chat-box-btn">
+                    <button class="chat-btn" id="close-chat-btn" title="mute chat">
+                        <img src="./images/mute-chat.png">
+                    </button>
+                </div>
+
+                <div id="student-messages" class="chat-display">
+                    <button id="scroll-to-latest" class="chatArrow" title="scroll to latest"><i class="fa-solid fa-arrow-down"></i></button>
+                </div>
+
+
+                <div class="send-message-box">
+                   <textarea placeholder="Type your message..." id="tutor-message"></textarea>
+                    <button class="chat-btn" title="Send Message">
+                        <img src="./images/send.png">
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="camera-control" id="camera-control">
+            <div class="webcam-icon" id="webcam">
+                <video id="webcam-video" autoplay muted></video>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar" id="settings-sidebar">
+        <div class="sidebar-header">
+            <h2>Settings</h2>
+            <button id="close-header" class="close-btn"><i class="fa fa-times"></i></button> 
+        </div>
+
+        <ul class="sidebar-content">
+            <li>
+                <div class="default-board-bg">
+                    <button class="whiteboard-bg" style="background: #ffffff;" data-color="#ffffff"></button>
+                    <button class="whiteboard-bg" style="background: #e6e6e6;" data-color="#e6e6e6"></button>
+                    <button class="whiteboard-bg" style="background: #add8e6;" data-color="#add8e6"></button>
+                    <button class="whiteboard-bg" style="background: #ffd700;" data-color="#ffd700"></button>
+                    <button class="whiteboard-bg" style="background: #a9a9a9;" data-color="#a9a9a9"></button>
+                    <button class="whiteboard-bg" style="background: #98fb98;" data-color="#98fb98"></button>
+                    <button class="whiteboard-bg" style="background: #000000;" data-color="#000000"></button>
+
+                </div>
+                <div class="custom-board-bg">
+                    <label for="custom-bg-color">Custom Color:</label>
+                    <input type="color" id="custom-bg-color" title="Choose your color">
+                </div>
+            </li>
+
+            <form id="username-form">
+            <input type="text" id="username-input" placeholder="Enter your username" required />
+            <button type="submit" class="submit-all-btn">Submit</button>
+            </form>
+
+                    <li class="notepad-section">
+                    <label for="notepad-area">Notepad</label>
+                    <textarea id="notepad-area" placeholder="Write your notes here..."></textarea>
+                    <button id="send-note-btn" class="send-note-btn">Send</button>
+                    <div id="notepad-messages" class="notepad-messages"></div>
+                    </li>
+                            </ul>
+    </div>
+
+
+
+    <div class="page-propagation">
+    <button class="propagateBtn" id="add-page" title="Add new Page">
+        <img src="./images/plus.png" />
+    </button>
+
+    <div class="pages">1</div>
+
+    <button class="propagateBtn" id="prev-page" title="Previous Page">
+        <img src="./images/back.png" />
+    </button>
+
+    <button class="propagateBtn" id="next-page" title="Next Page">
+        <img src="./images/right-arrow.png" />
+    </button>
+</div>
+
+        <script>
+        const toggleBtn = document.getElementById('toggle-tools');
+        const toolsBar = document.getElementById('tools-bar');
+
+        toggleBtn.addEventListener('click', () => {
+            toolsBar.classList.toggle('hidden-on-mobile');
+        });
+        </script>
+
+
+    <script src="./js/index.js"></script>
+    <script src="./js/function.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/screenshare.js"></script>
+    <script src="./js/mic.js"></script>
+    <script src="./js/camera-control.js"></script>
+    <script src="./js/sidebar.js"></script>
+    <script src="./js/chatbox.js"></script>
+    <script src="./js/page.js"></script>
+    <script src="./js/shape.js"></script>
+    <script src="./js/whiteboard.js"></script>
+    <script src="./server.js"></script>
+
+</body>
+</html>
